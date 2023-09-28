@@ -1,6 +1,15 @@
 
 # Recipe App
-This
+# How to install
+### Pre requirements
+- Install [**Node.js**](https://nodejs.org/en/download/)
+    - To check if **Node.js** is installed, run `node -v` in your terminal
+    - To check if **npm** is installed, run `npm -v` in your terminal
+- Install [**Git**](https://git-scm.com/downloads)
+    - To check if **Git** is installed, run `git --version` in your terminal
+- Install [**Python3**](https://www.python.org/downloads/)
+    - To check if **Python** is installed, run `python3 --version` in your terminal
+- Install **Django** `pip install django`
 ## Clone Repository: 
 Clone the project repository
 ```bash
