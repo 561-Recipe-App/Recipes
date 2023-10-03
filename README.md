@@ -13,7 +13,7 @@
 ## Clone Repository: 
 Clone the project repository
 ```bash
-git clone https://github.com/adelineguizar/Recipes.git
+git clone https://github.com/561-Recipe-App/Recipes.git
 ```
 
 ## How to run the project
