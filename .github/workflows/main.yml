@@ -27,10 +27,8 @@ jobs:
         run: |
           cd client
           npm install
-          echo "REACT_APP_SPOONACULAR_API_KEY=${{ secrets.REACT_APP_SPOONACULAR_API_KEY }}" > .env.production
           npm run build
-        env:
-          REACT_APP_SPOONACULAR_API_KEY: ${{ secrets.REACT_APP_SPOONACULAR_API_KEY }}
+        
 
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v1

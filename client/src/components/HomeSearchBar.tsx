@@ -21,7 +21,7 @@ const SearchBar: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[] | null>([]);
 
   const handleSearch = async (): Promise<void> => {
-    const url = `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${process.env.REACT_APP_SPOONACULAR_API_KEY}`;
+    const url = `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=a15d5ccf40414e79b58db4db072b75df`;
     const response = await fetch(url);
     const data: ComplexSearchResponse = await response.json();
     setRecipes(data.results);
