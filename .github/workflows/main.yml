@@ -3,37 +3,51 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Replace with your default branch if not "main"
-      - 10-stretch-goal-create-github-workflowdeploy-front-end-github-pages
+      - main  # Replace with your default branch if not 'main'
+      - 10-stretch-goal-create-github-workflowdeploy-front-end-github-pages  # Additional branch
 
 permissions:
-  contents: read
   pages: write
   id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: '16.x'
 
-      - name: Install Dependencies
-        run: npm install
-        working-directory: ./client  # Navigate to your React app folder
+      - name: Install dependencies and build
+        run: |
+          cd client
+          npm install
+          npm run build
 
-      - name: Build
-        run: npm run build
-        working-directory: ./client  # Navigate to your React app folder
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./client/build  # Replace with the directory containing your built app
+          name: build
+          path: client/build/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: client/build/
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifact_name: build
