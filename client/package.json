@@ -37,6 +37,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -59,6 +60,5 @@
       "last 1 safari version"
     ]
   },
-
   "homepage": "https://561-Recipe-App.github.io/Recipes"
 }
