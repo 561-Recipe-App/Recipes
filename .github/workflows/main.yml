@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main  # Replace with your default branch if not "main"
+      - 10-stretch-goal-create-github-workflowdeploy-front-end-github-pages
 
 jobs:
   build-and-deploy:
