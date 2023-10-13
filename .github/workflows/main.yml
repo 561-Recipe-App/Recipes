@@ -35,7 +35,7 @@ jobs:
           REACT_APP_SPOONACULAR_API_KEY: ${{ env.REACT_APP_SPOONACULAR_API_KEY }}
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-pages-artifact@v1
         with:
           name: build
           path: client/build/
