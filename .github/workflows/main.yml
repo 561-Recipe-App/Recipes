@@ -18,15 +18,14 @@ jobs:
         with:
           node-version: '14.x'
 
-      - name: Change Directory
-        run: cd client  # Navigate to your React app folder
-
       - name: Install Dependencies
         run: npm install
+        working-directory: ./client  # Navigate to your React app folder
 
       - name: Build & Deploy
         run: |
           npm run build
           npm run deploy
+        working-directory: ./client  # Navigate to your React app folder
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
