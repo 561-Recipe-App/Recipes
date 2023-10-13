@@ -6,6 +6,11 @@ on:
       - main  # Replace with your default branch if not "main"
       - 10-stretch-goal-create-github-workflowdeploy-front-end-github-pages
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -17,7 +22,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: '18.x'
 
       - name: Install Dependencies
         run: npm install
