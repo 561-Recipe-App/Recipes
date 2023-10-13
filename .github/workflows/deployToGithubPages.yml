@@ -22,10 +22,11 @@ jobs:
         with:
           node-version: '16.x'
 
-      - name: Install dependencies and build
+      - name: Install dependencies, build and run unit tests
         run: |
           cd client
           npm install
+          npm run test
           npm run build
         
 
