@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 
+
+
 /* children is a special prop that holds all the children components and allows
 us to render children components inside the parent component.
 ex:
@@ -22,9 +24,11 @@ export default function MainLayout({ children }: MainLayoutProps) {
     <>
       <Navbar bg="light" expand="lg" fixed="top">
         <Navbar.Brand href="/">Recipe-App</Navbar.Brand>
+        <Navbar.Brand href="#/about">About Us</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
+            
             <Button variant="outline-success" className="mr-2">
               Sign In
             </Button>
