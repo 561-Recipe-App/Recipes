@@ -17,7 +17,7 @@ git clone https://github.com/561-Recipe-App/Recipes.git
 ```
 
 ## How to run the project
-- change directory(`cd`) into the front-end react app(`client` folder) and do so by running the following commands:
+- change directory(`cd`) into the front-end react app(`client` folder) and do so by running the following commands in terminal:
 ```bash
 cd client
 npm install
