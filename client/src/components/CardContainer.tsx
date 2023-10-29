@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 interface CardContent {
   title: string;
   text: string;
+  image: string;
 }
 
 interface CardContainerProps {
@@ -22,7 +23,7 @@ const CardContainer: React.FC<CardContainerProps> = ({ count, cardContent }) => 
       <CardDeck>
         {cardContent.slice(0, validatedCount).map((content, index) => (
           <Card key={index}>
-            <Card.Img variant="top" src="https://via.placeholder.com/150" />
+            <Card.Img variant="top" src={content.image} />
             <Card.Body>
               <Card.Title>{content.title}</Card.Title>
               <Card.Text>{content.text}</Card.Text>
