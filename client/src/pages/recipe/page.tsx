@@ -20,7 +20,7 @@ const RecipePage = () => {
       setRecipeData(response);
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   return (
     recipeData && (
