@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { type ChangeEvent, useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
-
-
+import { Link } from 'react-router-dom';
 
 interface Recipe {
   id: number;
@@ -73,7 +72,11 @@ const SearchBar: React.FC = () => {
                   className="img-thumbnail d-inline d-lg-none"
                   style={{ width: '50px', height: '50px', marginRight: '1rem' }}
                 />
-                <span>{recipe.title}</span>
+                <span>
+                  <Link to={`/recipe/${recipe.id}/${recipe.title}`}>
+                    {recipe.title}
+                  </Link>
+                </span>
               </div>
             </div>
           ))}
