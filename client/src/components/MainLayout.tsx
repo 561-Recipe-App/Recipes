@@ -30,9 +30,15 @@ export default function MainLayout({ children }: MainLayoutProps) {
           <Nav className="ml-auto">
             
             <Button variant="outline-success" className="mr-2">
-              Sign In
+            <a href="#/signin">
+              Sign In        
+              </a>
             </Button>
-            <Button variant="success">Sign Up</Button>
+            <Button variant="success">
+              <a href="#/signup">
+                Sign Up
+              </a>
+            </Button>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
