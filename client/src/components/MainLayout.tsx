@@ -3,6 +3,7 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 
 
 
+
 /* children is a special prop that holds all the children components and allows
 us to render children components inside the parent component.
 ex:
@@ -19,6 +20,9 @@ interface MainLayoutProps {
   children: React.ReactNode;
 }
 
+
+
+
 export default function MainLayout({ children }: MainLayoutProps) {
   return (
     <>
@@ -29,9 +33,9 @@ export default function MainLayout({ children }: MainLayoutProps) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             
-            <Button variant="outline-success" className="mr-2">
-              Sign In
-            </Button>
+                <Button  href="#/Signin" type="button" variant="outline-success" className="mr-2">
+                  Sign In
+                </Button>
             <Button variant="success">Sign Up</Button>
           </Nav>
         </Navbar.Collapse>
