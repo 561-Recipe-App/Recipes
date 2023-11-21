@@ -25,6 +25,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <Navbar bg="light" expand="lg" fixed="top">
         <Navbar.Brand href="/">Recipe-App</Navbar.Brand>
         <Navbar.Brand href="#/about">About Us</Navbar.Brand>
+        <Navbar.Brand href="#/random">Random Recipe</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">

@@ -5,6 +5,7 @@ import { AboutPage } from './pages/about/page';
 import RecipePage from './pages/recipe/page';
 import SignUpPage from './pages/signup/page';
 import SignIn from './pages/signin/page';
+import RandomRecipePage from './pages/random-recipe/page';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path="/" exact component={Home} />
       <Route path="/about" exact component={AboutPage} />
       <Route path="/recipe/:id/:title" exact component={RecipePage} />
+      <Route path="/random/" exact component={RandomRecipePage} />
       <Route path="/signup" exact component={SignUpPage}/>
       <Route path="/signin" exact component={SignIn}/>
       <Route component={NotFound} />
