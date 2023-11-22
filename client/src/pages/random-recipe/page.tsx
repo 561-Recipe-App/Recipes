@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Container, ListGroup, Row } from 'react-bootstrap';
+//import { useParams } from 'react-router';
 import MainLayout from '../../components/MainLayout';
 
+/*type RecipeParams = {
+  id: string;
+  title: string;
+};*/
 const RecipePage = () => {
-  //const { id, title } = useParams<RecipeParams>();
-  const title = "Random Recipe"
-  const maxId = 116000;
-  const id = (Math.floor(Math.random() * maxId) + 1).toString();
+  const title = 'Random Recipe';
   const [recipeData, setRecipeData] = useState<RecipeApiResponse | null>(null);
-  console.log(recipeData);
+
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch(
-        `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=a15d5ccf40414e79b58db4db072b75df`,
-      );
-      const response = await data.json();
-      setRecipeData(response);
+      try {
+        const data = await fetch(
+          `https://api.spoonacular.com/recipes/random?number=1&tags=vegetarian,dessert&apiKey=a15d5ccf40414e79b58db4db072b75df`,
+        );
+        const response = await data.json();
+        setRecipeData(response.recipes[0]); // Since the response contains an array of recipes, take the first one
+      } catch (error) {
+        console.error('Error fetching random recipe:', error);
+      }
     };
+
     fetchData();
-  }, [id]);
+  }, []);
 
   return (
     recipeData && (
@@ -93,13 +100,12 @@ const RecipePage = () => {
                           </a>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Wine Pairing:{' '}
-                          {recipeData.winePairing.pairedWines.join(', ')}
+                          Wine Pairing: {recipeData.winePairing?.pairedWines.join(', ')}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Wine Pairing Text:{' '}
-                          {recipeData.winePairing.pairingText}
+                          Wine Pairing Text: {recipeData.winePairing?.pairingText}
                         </ListGroup.Item>
+
                         <ListGroup.Item>
                           Instructions:{' '}
                           <div
