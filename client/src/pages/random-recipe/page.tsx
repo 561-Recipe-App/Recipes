@@ -8,7 +8,7 @@ import MainLayout from '../../components/MainLayout';
   title: string;
 };*/
 const RecipePage = () => {
-  const title = 'Random Recipe';
+  
   const [recipeData, setRecipeData] = useState<RecipeApiResponse | null>(null);
 
   useEffect(() => {
@@ -26,6 +26,8 @@ const RecipePage = () => {
 
     fetchData();
   }, []);
+
+  const title = recipeData?.title || 'Recipe';
 
   return (
     recipeData && (

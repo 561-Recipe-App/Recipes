@@ -20,12 +20,16 @@ interface MainLayoutProps {
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
+
+  const handleRandomRecipeClick = () => {
+    window.location.reload();
+  };
   return (
     <>
       <Navbar bg="light" expand="lg" fixed="top">
         <Navbar.Brand href="/">Recipe-App</Navbar.Brand>
         <Navbar.Brand href="#/about">About Us</Navbar.Brand>
-        <Navbar.Brand href="#/random">Random Recipe</Navbar.Brand>
+        <Navbar.Brand onClick={handleRandomRecipeClick} style={{ cursor: 'pointer' }}> Random Recipe</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
