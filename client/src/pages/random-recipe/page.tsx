@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Container, ListGroup, Row } from 'react-bootstrap';
+import { Card, Col, Container, ListGroup, Row, Button } from 'react-bootstrap';
 //import { useParams } from 'react-router';
 import MainLayout from '../../components/MainLayout';
 
@@ -28,6 +28,10 @@ const RecipePage = () => {
   }, []);
 
   const title = recipeData?.title || 'Recipe';
+  const handleRandomRecipeClick = () => {
+    // Reload the page
+    window.location.reload();
+  };
 
   return (
     recipeData && (
@@ -36,7 +40,7 @@ const RecipePage = () => {
           <Container>
             <Row>
               <Col>
-                <h1>{title}</h1>
+                <h1>{title}</h1> 
                 {recipeData && (
                   <>
                     <Card>
@@ -130,6 +134,10 @@ const RecipePage = () => {
                     </ListGroup>
                   </>
                 )}
+                <br />
+                <Button variant="success" className="mr-2" onClick={handleRandomRecipeClick}>
+                New Random Recipe
+                </Button>
               </Col>
             </Row>
           </Container>

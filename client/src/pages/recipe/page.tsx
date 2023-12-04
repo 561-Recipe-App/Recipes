@@ -13,6 +13,7 @@ const RecipePage = () => {
   console.log(recipeData);
   useEffect(() => {
     const fetchData = async () => {
+
       const data = await fetch(
         `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=a15d5ccf40414e79b58db4db072b75df`,
       );
