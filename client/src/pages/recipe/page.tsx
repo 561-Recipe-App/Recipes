@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import MainLayout from '../../components/MainLayout';
+import axios from 'axios';
 
 type RecipeParams = {
   id: string;
@@ -13,13 +14,20 @@ const RecipePage = () => {
   console.log(recipeData);
   useEffect(() => {
     const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/recipe/', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Recipe-ID': id,
+          },
+        });
 
-      const data = await fetch(
-        `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=a15d5ccf40414e79b58db4db072b75df`,
-      );
-      const response = await data.json();
-      setRecipeData(response);
+        setRecipeData(response.data);
+      } catch (error) {
+        console.error('Fetching error:', error);
+      }
     };
+
     fetchData();
   }, [id]);
 
