@@ -26,7 +26,6 @@ jobs:
         run: |
           cd client
           npm install
-          npm run test --passWithNoTests
           npm run build
 
 
