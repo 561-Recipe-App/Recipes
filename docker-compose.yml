@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_DB: yourdbname
+      POSTGRES_USER: youruser
+      POSTGRES_PASSWORD: yourpassword
+    ports:
+      - "5432:5432"
+
+  django:
+    build: ./server
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./server:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=yourdbname
+      - DB_USER=youruser
+      - DB_PASSWORD=yourpassword
+      - DB_HOST=db
+    depends_on:
+      - db
+
+  react:
+    build: ./client
+    volumes:
+      - ./client:/app
+      - /client/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - django
+
+volumes:
+  postgres_data:

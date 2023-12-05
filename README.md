@@ -1,96 +1,95 @@
-
 # Recipe App
+
 # How to install
+
 ### Pre requirements
-- Install [**Node.js**](https://nodejs.org/en/download/)
-    - To check if **Node.js** is installed, run `node -v` in your terminal
-    - To check if **npm** is installed, run `npm -v` in your terminal
-- Install [**Git**](https://git-scm.com/downloads)
-    - To check if **Git** is installed, run `git --version` in your terminal
-- Install [**Python3**](https://www.python.org/downloads/)
-    - To check if **Python** is installed, run `python3 --version` in your terminal
-- Install **Django** `pip install django`
-## Clone Repository: 
-Clone the project repository
+
+- Install [**Docker**](https://docs.docker.com/get-docker/)
+    - To check if **Docker** is installed, run `docker -v` in your terminal
+    - To check if **Docker Compose** is installed, run `docker-compose -v` in your terminal
+
+## Getting Started
+
+1. **Clone the Repository:**
+   First, clone the repository to your local machine using Git:
+
+   ```bash
+   git clone [repository-url]
+   cd [repository-directory]
+   ```
+
 ```bash
 git clone https://github.com/561-Recipe-App/Recipes.git
 ```
 
-## How to run the project
-- change directory(`cd`) into the front-end react app(`client` folder) and do so by running the following commands:
-```bash
-cd client
-npm install
-npm start
-```
-## Making Backend Changes**
-### Create a New Virtual Environment
+**Running Docker Compose:**
+To start all services (PostgreSQL, Django, React), navigate to the root of the project where the `docker-compose.yml`
+file is located and run:
 
-A virtual environment is an isolated environment where you can install dependencies without affecting the system Python or other Python projects.
+   ```bash
+   docker-compose up --build
+   ```
 
-### macOS
+This command builds and starts the containers defined in the `docker-compose.yml` file. The `--build` flag ensures that
+Docker builds the images before starting the containers.
 
-Open a terminal
+3. **Accessing the Applications:**
 
-**Navigate to your project directory**
-```bash
-cd server
-```
+- The React frontend will be accessible at [http://localhost:3000](http://localhost:3000).
+- The Django backend will be accessible at [http://localhost:8000](http://localhost:8000).
 
-**Create a virtual environment**
-```bash
-python3 -m venv myenv
-```
+4. **Stopping the Containers:**
+   To stop the Docker containers, press `Ctrl+C` in the terminal. If you want to stop and remove the containers,
+   networks, and volumes, use:
 
-### Windows
+   ```bash
+   docker-compose down
+   ```
 
-**Open Command Prompt**
+## Database Initialization
 
-**Navigate to your project directory**
-```cmd
-cd server
-```
+- On the first run, Docker Compose will set up the PostgreSQL database and execute the SQL scripts located in the `db`
+  directory to create necessary tables.
+- These scripts run only once when the database is initialized for the first time.
 
-**Create a virtual environment**
-```cmd
-python -m venv myenv
-```
+## Troubleshooting
 
-## Activate the Virtual Environment
+- If you make changes to the SQL scripts and need to re-run them, you must reset the database. Be cautious as this will
+  delete all existing data in the database:
 
-Once you've created a virtual environment, you'll need to activate it to use it.
+  ```bash
+  docker-compose down -v
+  docker-compose up --build
+  ```
 
-### macOS
-```bash
-source myenv/bin/activate
-pip install -r requirements.txt
-python3 manage.py runserver
-```
-### Windows
-```cmd
-myenv\Scripts\activate
-pip install -r requirements.txt
-python manage.py runserver
-```
+- Check the logs of the Docker containers if you encounter any issues:
 
+  ```bash
+  docker logs [container_name_or_id]
+  ```
 
 # Common git workflows:
 
 ### 1 - Create a branch off the main branch
+
 ```bash
 git checkout -b issue2-create-skeleton
 ```    
-this creates a branch identical to main called `issue2-create-skeleton` and switched your current local branch to `issue2-create-skeleton`
 
+this creates a branch identical to main called `issue2-create-skeleton` and switched your current local branch
+to `issue2-create-skeleton`
 
 ### 2 - Pulling the latest changes and merging them into your branch before making a pull request
+
 Run your normal git workflow to commit
+
 ```bash
 git add server/manage.py 
 git commit -m "updated manage.py to include new feature x"
 ```
 
 Grab the latest changes
+
 ```bash
 git checkout main
 git pull
@@ -102,34 +101,40 @@ Switch back to your feature branch and rebase
 git checkout issue2-create-skeleton
 git rebase main
 ```
+
 when you type `git rebase main`, the following happens:
 ![image](https://wac-cdn.atlassian.com/dam/jcr:4e576671-1b7f-43db-afb5-cf8db8df8e4a/01%20What%20is%20git%20rebase.svg?cdnVersion=1234)
-rebasing will take all the changes from `main` and apply your branch on top of them. If there are any merge conflicts, you will need to resolve them in your editor before you can continue.
-    
+rebasing will take all the changes from `main` and apply your branch on top of them. If there are any merge conflicts,
+you will need to resolve them in your editor before you can continue.
+
 Once you have resolved the merge conflicts, you can continue with your normal git workflow
+
 ```bash
 git add file/with/conflicts 
 git commit -m "merging issue2-create-skeleton with main"
 git push -u origin issue2-create-skeleton
 ```
-    
+
 ### 3 - To see all branches
+
 ```bash
 git branch -a
 ```
 
 ### 4 - Publish a branch upstream
+
 ```bash
 git push -u origin issue2-create-skeleton
 ```
 
-or 
+or
 
 ```bash
 git push --set-upstream origin issue2-create-skeleton
 ```
 
 ### 5 - To see local changes in your terminal
+
 `git status`
 
 **red files** mean there **is a change** and it **hasn't been staged** to commit
@@ -137,9 +142,11 @@ git push --set-upstream origin issue2-create-skeleton
 **green files** mean there **is a change** and it **has been staged** to commit
 
 ### 6 - To commit a change
+
 `git commit -m "message"`
 
 This creates a new commit of all the staged files see #5 to see the status of staged files
 
 ### 7 - Stage a file for commit
+
 `git add path/to/file/to/stage`
