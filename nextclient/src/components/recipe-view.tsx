@@ -17,14 +17,6 @@ interface RecipeData {
 export function RecipeView({ data }: RecipeData) {
   console.log(data.extendedIngredients);
 
-  const Ingredient = () => {
-    return data.extendedIngredients.map((ingredient: any) => (
-      <div key={ingredient.id} className="flex items-center gap-2">
-        <img src={`https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`}
-             alt={ingredient.name} className="w-10 h-10 object-cover" />
-        <span>{ingredient.original}</span>
-      </div>)) as JSX.Element[];
-  };
 
   return (
     data && (<div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-7xl px-4 mx-auto py-6">
@@ -77,9 +69,59 @@ export function RecipeView({ data }: RecipeData) {
               />
             </CardDescription>
           </Card>
-
         </div>
       </div>
+
+      <Card>
+        <CardTitle className="p-4">Detailed Instructions</CardTitle>
+        <CardDescription className="p-4">
+          {data.analyzedInstructions[0]?.steps.map((step: any) => (
+            <div key={step.number} className="mb-4">
+              <h3 className="font-semibold">Step {step.number}</h3>
+
+              <p>{step.step}</p>
+              {step.ingredients.length > 0 && (
+                <div>
+                  <h4 className="font-semibold mt-2">Ingredients:</h4>
+                  <ul>
+                    {step.ingredients.map((ingredient: any) => (
+                      <>
+                        <li key={ingredient.id} className="flex items-center gap-2">
+                          <img
+                            src={`https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`}
+                            alt={ingredient.name}
+                            className="w-6 h-6 object-cover"
+                          />
+                          <span>{ingredient.name}</span>
+                        </li>
+                      </>
+
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {step.equipment.length > 0 && (
+                <div>
+                  <h4 className="font-semibold mt-2">Equipment:</h4>
+                  <ul>
+                    {step.equipment.map((equipment: any) => (
+                      <li key={equipment.id} className="flex items-center gap-2">
+                        <img
+                          src={`https://spoonacular.com/cdn/equipment_100x100/${equipment.image}`}
+                          alt={equipment.name}
+                          className="w-6 h-6 object-cover"
+                        />
+                        <span>{equipment.name}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ))}
+        </CardDescription>
+      </Card>
+
       <div className="w-full">
         <h2 className="font-semibold text-lg md:text-xl">Comments and Ratings</h2>
         <div className="border shadow-sm rounded-lg">

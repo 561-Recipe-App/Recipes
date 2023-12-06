@@ -29,10 +29,10 @@ services:
       - db
 
   react:
-    build: ./client
+    build: ./nextclient
     volumes:
-      - ./client:/app
-      - /client/node_modules
+      - ./nextclient:/app
+      - /nextclient/node_modules
     ports:
       - "3000:3000"
     environment:
