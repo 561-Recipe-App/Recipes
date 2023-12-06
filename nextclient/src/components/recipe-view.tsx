@@ -36,7 +36,7 @@ export function RecipeView({ data }: RecipeData) {
           <h1 className="font-bold text-3xl">{data.title}</h1>
           {/*the data.summary variable is html, embed it below*/}
 
-          <p className="text-sm text-gray-700" dangerouslySetInnerHTML={{
+          <p className="text-sm light:text-gray-700" dangerouslySetInnerHTML={{
             __html: data.summary
           }} />
         </div>
