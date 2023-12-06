@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+from corsheaders.defaults import default_headers
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -51,13 +53,16 @@ INSTALLED_APPS = [
 
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     "https://example.com",
     "https://sub.example.com",
     "http://localhost:8000",
     "http://127.0.0.1:9000"
+]
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'recipe-id',
+    # Add other custom headers if needed
 ]
 ROOT_URLCONF = 'backend.urls'
 
