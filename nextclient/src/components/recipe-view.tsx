@@ -15,11 +15,9 @@ interface RecipeData {
 }
 
 export function RecipeView({ data }: RecipeData) {
-  console.log(data.extendedIngredients);
-
 
   return (
-    data && (<div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-7xl px-4 mx-auto py-6">
+    data && (<div className="grid grid-cols-1 xl:grid-cols-3 gap-6 xl:gap-8 items-start max-w-7xl mx-auto py-6 px-4">
       <div className="relative group overflow-hidden rounded-lg shadow-lg">
         <img
           alt="Food Image"
@@ -170,19 +168,22 @@ export function RecipeView({ data }: RecipeData) {
         </div>
       </div>
       <div className="w-full">
-        <form>
-          <div className="relative">
-            <Input
-              className="w-full bg-white shadow-none appearance-none md:w-2/3 lg:w-1/2 dark:bg-gray-950"
-              placeholder="Write a comment..."
-              type="text"
-            />
-            <Button className="mt-2 md:mt-0 md:absolute right-0 top-0" type="submit">
-              Submit
-            </Button>
-          </div>
-        </form>
+
+        <div className="relative">
+          <Input
+            className="w-full bg-white shadow-none appearance-none md:w-full lg:w-1/2 dark:bg-gray-950"
+            placeholder="Write a comment..."
+            type="text"
+          />
+          <Button className="mt-2 md:mt-0 md:absolute right-0 top-0" type="submit">
+            Submit
+          </Button>
+        </div>
+
       </div>
+      <Button onClick={() => window.location.reload()}>
+        Random Recipe
+      </Button>
     </div>)
   );
 }
