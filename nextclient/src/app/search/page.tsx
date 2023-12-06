@@ -1,6 +1,7 @@
+"use client";
 import * as React from "react";
-import MainLayout from "../../../../client/src/components/MainLayout";
-import SearchBar from "../../../../client/src/components/HomeSearchBar";
+import MainLayout from "@/components/MainLayout";
+import SearchBar from "@/components/HomeSearchBar";
 
 export default function Home() {
   return (

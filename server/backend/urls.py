@@ -19,5 +19,5 @@ from django.urls import path
 from .views import HelloWorldView
 
 urlpatterns = [
-    path('api/recipe/', HelloWorldView.as_view()),
+    path('recipe/', HelloWorldView.as_view()),
 ]

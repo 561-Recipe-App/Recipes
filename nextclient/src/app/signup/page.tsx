@@ -1,5 +1,5 @@
 import * as React from "react";
-import MainLayout from "../../../../client/src/components/MainLayout";
+import MainLayout from "../../components/MainLayout";
 // import CardContainer from '../../components/CardContainer';
 
 
