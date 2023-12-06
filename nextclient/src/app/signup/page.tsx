@@ -1,5 +1,9 @@
 import * as React from "react";
+<<<<<<< HEAD
 import MainLayout from "../../components/MainLayout";
+=======
+import MainLayout from "../../../../client/src/components/MainLayout";
+>>>>>>> b689c78 (m)
 // import CardContainer from '../../components/CardContainer';
 
 
