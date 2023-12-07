@@ -1,0 +1,50 @@
+name: Discord Notification
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install discord.js
+
+      - name: Send Discord Message
+        run: |
+          node - <<EOF
+          const { WebhookClient, MessageEmbed } = require('discord.js');
+
+          const webhook = new WebhookClient({
+            url: process.env.DISCORD_WEBHOOK_URL,
+          });
+
+          const mention = process.env.DISCORD_MENTION || '';
+          const pr = process.env.GITHUB_EVENT_PATH;
+          const prData = require(pr);
+
+          const embed = new MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('New Pull Request Created')
+            .setDescription(`A new pull request has been created by ${prData.pull_request.user.login}`)
+            .addField('Title', prData.pull_request.title, true)
+            .addField('Repository', prData.repository.full_name, true)
+            .addField('Branch', prData.pull_request.head.ref, true)
+            .addField('Reviewers', mention, true)
+            .setTimestamp();
+
+          webhook.send({ embeds: [embed] });
+          EOF
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_MENTION: ${{ secrets.DISCORD_MENTION }}
