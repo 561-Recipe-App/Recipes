@@ -1,6 +1,7 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
 import requests
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 
 class HelloWorldView(APIView):
     def get(self, request):
@@ -9,7 +10,7 @@ class HelloWorldView(APIView):
         if not recipe_id:
             return Response({"error": "Recipe ID is required"}, status=400)
 
-        api_url = f"https://api.spoonacular.com/recipes/{recipe_id}/information?includeNutrition=false&apiKey=a15d5ccf40414e79b58db4db072b75df"
+        api_url = f"https://api.spoonacular.com/recipes/{recipe_id}/information?includeNutrition=false&apiKey=9e1a3f29d91541358e31191ef95c5ddc"
 
         try:
             response = requests.get(api_url)

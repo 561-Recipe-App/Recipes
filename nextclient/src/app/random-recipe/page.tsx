@@ -1,35 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Col, Container, ListGroup, Row } from 'react-bootstrap';
-import { useParams } from 'react-router';
-import MainLayout from '../../components/MainLayout';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { Button, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
+//import { useParams } from 'react-router';
+import MainLayout from "../../../../client/src/components/MainLayout";
 
-type RecipeParams = {
+/*type RecipeParams = {
   id: string;
   title: string;
-};
+};*/
 const RecipePage = () => {
-  const { id, title } = useParams<RecipeParams>();
+
   const [recipeData, setRecipeData] = useState<RecipeApiResponse | null>(null);
-  console.log(recipeData);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/recipe/', {
-          headers: {
-            'Content-Type': 'application/json',
-            'Recipe-ID': id,
-          },
-        });
-
-        setRecipeData(response.data);
+        const data = await fetch(
+          `https://api.spoonacular.com/recipes/random?number=1&tags=vegetarian,dessert&apiKey=a15d5ccf40414e79b58db4db072b75df`
+        );
+        const response = await data.json();
+        setRecipeData(response.recipes[0]); // Since the response contains an array of recipes, take the first one
       } catch (error) {
-        console.error('Fetching error:', error);
+        console.error("Error fetching random recipe:", error);
       }
     };
 
     fetchData();
-  }, [id]);
+  }, []);
+
+  const title = recipeData?.title || "Recipe";
+  const handleRandomRecipeClick = () => {
+    // Reload the page
+    window.location.reload();
+  };
 
   return (
     recipeData && (
@@ -47,7 +49,7 @@ const RecipePage = () => {
                         <Card.Title>{recipeData.title}</Card.Title>
                         <Card.Text
                           dangerouslySetInnerHTML={{
-                            __html: recipeData.summary,
+                            __html: recipeData.summary
                           }}
                         />
                       </Card.Body>
@@ -65,28 +67,28 @@ const RecipePage = () => {
                           Health Score: {recipeData.healthScore}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Cuisine: {recipeData.cuisines.join(', ')}
+                          Cuisine: {recipeData.cuisines.join(", ")}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Diet: {recipeData.diets.join(', ')}
+                          Diet: {recipeData.diets.join(", ")}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Vegetarian: {recipeData.vegetarian ? 'Yes' : 'No'}
+                          Vegetarian: {recipeData.vegetarian ? "Yes" : "No"}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Vegan: {recipeData.vegan ? 'Yes' : 'No'}
+                          Vegan: {recipeData.vegan ? "Yes" : "No"}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Gluten-Free: {recipeData.glutenFree ? 'Yes' : 'No'}
+                          Gluten-Free: {recipeData.glutenFree ? "Yes" : "No"}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Dairy-Free: {recipeData.dairyFree ? 'Yes' : 'No'}
+                          Dairy-Free: {recipeData.dairyFree ? "Yes" : "No"}
                         </ListGroup.Item>
                         <ListGroup.Item>
                           Health Score: {recipeData.healthScore}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Weight Watcher Points:{' '}
+                          Weight Watcher Points:{" "}
                           {recipeData.weightWatcherSmartPoints}
                         </ListGroup.Item>
                         <ListGroup.Item>
@@ -94,7 +96,7 @@ const RecipePage = () => {
                           {recipeData.pricePerServing.toFixed(2)}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Source:{' '}
+                          Source:{" "}
                           <a
                             href={recipeData.sourceUrl}
                             target="_blank"
@@ -104,18 +106,17 @@ const RecipePage = () => {
                           </a>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Wine Pairing:{' '}
-                          {recipeData.winePairing.pairedWines.join(', ')}
+                          Wine Pairing: {recipeData.winePairing?.pairedWines.join(", ")}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          Wine Pairing Text:{' '}
-                          {recipeData.winePairing.pairingText}
+                          Wine Pairing Text: {recipeData.winePairing?.pairingText}
                         </ListGroup.Item>
+
                         <ListGroup.Item>
-                          Instructions:{' '}
+                          Instructions:{" "}
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: recipeData.instructions,
+                              __html: recipeData.instructions
                             }}
                           ></div>
                         </ListGroup.Item>
@@ -128,11 +129,15 @@ const RecipePage = () => {
                           <ListGroup.Item key={index}>
                             {ingredient.original}
                           </ListGroup.Item>
-                        ),
+                        )
                       )}
                     </ListGroup>
                   </>
                 )}
+                <br />
+                <Button variant="success" className="mr-2" onClick={handleRandomRecipeClick}>
+                  New Random Recipe
+                </Button>
               </Col>
             </Row>
           </Container>
