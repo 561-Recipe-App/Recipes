@@ -95,6 +95,7 @@ DATABASES = {
         'PASSWORD': 'yourpassword',  # Replace with your database password
         'HOST': 'db',  # Set to Docker service name of db or 'localhost' if not using Docker
         'PORT': '5432',  # Default PostgreSQL port
+        'CONN_MAX_AGE': 60,  # Retry every 60 seconds
     }
 }
 
