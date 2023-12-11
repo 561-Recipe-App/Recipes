@@ -1,0 +1,36 @@
+*{ margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+text {
+    font-family: 'Times New Roman', Times, serif, sans-serif;
+   /* font-style: italic;*/
+    line-height: 3;
+    font-weight: 100;
+    font-size: 100;
+    
+   /* background-color:bisque;*/
+
+}
+
+main { 
+    max-width: 800px;
+    font-weight: 1000;
+    margin: 20px auto;
+    padding: 20px;
+    /*background-color: #fff;*/
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+head {
+    font-family: 'Times New Roman', Times, serif ;
+    font-weight: 10;
+    text-align: center;
+    padding: 10px;
+    background-color: bisque;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
