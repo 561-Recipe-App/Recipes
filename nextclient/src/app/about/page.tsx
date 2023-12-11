@@ -1,4 +1,3 @@
-
 "use client";
 import * as React from "react";
 
@@ -41,8 +40,6 @@ export default function AboutPage() {
 
   return (
     <>
-
-
       <div className="container mx-auto px-4 mt-5">
         <div className="flex flex-row flex-wrap justify-center gap-6">
           {cardContent.map((content, index) => (
@@ -60,5 +57,6 @@ export default function AboutPage() {
         </div>
       </div>
     </>
-  )
-          }
+
+  );
+}

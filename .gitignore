@@ -2,9 +2,11 @@
 
 server/venv/*
 server/.idea
+server/backend/__pycache__/*
 
 .idea
 
 client/.idea
 client/.env
+
 
