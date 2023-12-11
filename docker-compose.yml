@@ -4,12 +4,12 @@ services:
   db:
     image: postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./db:/docker-entrypoint-initdb.d
+      - db:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: yourdbname
       POSTGRES_USER: youruser
       POSTGRES_PASSWORD: yourpassword
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
 
@@ -41,4 +41,4 @@ services:
       - django
 
 volumes:
-  postgres_data:
+  db:
