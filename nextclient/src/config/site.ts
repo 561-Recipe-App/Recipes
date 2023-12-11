@@ -12,6 +12,10 @@ export const siteConfig = {
     {
       title: "Random",
       href: "/random"
+    },
+    {
+      title: "Help page",
+      href: "/Helppage"
     }
   ],
   links: {
