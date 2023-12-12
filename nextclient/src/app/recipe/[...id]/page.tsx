@@ -13,12 +13,9 @@ const RecipePage = (url: RecipeParams) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/recipe`, {
-          headers: {
-            "Content-Type": "application/json",
-            "Recipe-ID": id
-          }
-        });
+        const response = await fetch(`https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=9e1a3f29d91541358e31191ef95c5ddc`, 
+          
+        );
         const data = await response.json();
         setRecipeData(data);
       } catch (error) {
