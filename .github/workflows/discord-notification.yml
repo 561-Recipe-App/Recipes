@@ -1,9 +1,9 @@
-name: Discord Notification on Pull Request
+name: Discord Notification on Commit
 
 on:
-  pull_request:
-    types:
-      - opened  # You can specify other relevant events as needed
+  push:
+    branches:
+      - main  # Replace 'main' with the name of your base branch
 
 jobs:
   notify:
@@ -22,14 +22,22 @@ jobs:
       - name: Install dependencies
         run: npm install discord.js
 
+<<<<<<< HEAD
       - name: Send Discord Notification on Pull Request
         run: |
           const { WebhookClient, MessageEmbed } = require('discord.js');
+=======
+      - name: Send Discord Notification on Commit
+        run: |
+          node - <<EOF
+            const { WebhookClient, MessageEmbed } = require('discord.js');
+>>>>>>> test-workflow
 
-          const webhook = new WebhookClient({
-            url: process.env.DISCORD_WEBHOOK_URL,
-          });
+            const webhook = new WebhookClient({
+              url: process.env.DISCORD_WEBHOOK_URL,
+            });
 
+<<<<<<< HEAD
           const mention = process.env.DISCORD_MENTION || '';
           const pr = process.env.GITHUB_EVENT_PATH;
 
@@ -54,5 +62,20 @@ jobs:
           } catch (error) {
             console.error('Error:', error);
           }
+=======
+            const commit = process.env.GITHUB_SHA.substring(0, 7);
+            const repoName = process.env.GITHUB_REPOSITORY;
+            const branchName = process.env.GITHUB_REF.replace('refs/heads/', '');
+
+            const embed = new MessageEmbed()
+              .setColor('#0099ff')
+              .setTitle('New Commit')
+              .setDescription(`A new commit has been made to the branch ${branchName} in ${repoName}.`)
+              .addField('Commit', commit, true)
+              .setTimestamp();
+
+            webhook.send({ embeds: [embed] });
+          EOF
+>>>>>>> test-workflow
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
