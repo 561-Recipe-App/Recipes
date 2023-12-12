@@ -1,37 +1,86 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import axios from "axios";
 
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+axios.defaults.withCredentials = true;
 
-const formSchema = z.object({
+const client = axios.create({
+  baseURL: "http://localhost:8000/api/"
+});
+
+const SignupFormSchema = z.object({
   username: z.string().min(6).max(50),
   email: z.string().email(),
   password: z.string().min(8).max(50)
 });
+
+const LoginFormSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8).max(50)
+});
+
+
 export default function Auth() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const signUpForm = useForm<z.infer<typeof SignupFormSchema>>({
+    resolver: zodResolver(SignupFormSchema),
     defaultValues: {
       username: ""
     }
   });
+  const loginForm = useForm<z.infer<typeof LoginFormSchema>>({
+    resolver: zodResolver(LoginFormSchema),
+    defaultValues: {
+      email: ""
+    }
+  });
+
+  const [currentUser, setCurrentUser] = useState(false);
 
   // 2. Define a submit handler.
-  function onSubmitSignUp(values: z.infer<typeof formSchema>) {
+
+
+  function onSubmitSignUp(values: z.infer<typeof SignupFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
     console.log(values);
+    client.post(
+      "register",
+      {
+        email: values.email,
+        username: values.username,
+        password: values.password
+      }
+    ).then(function(res) {
+        console.log(res);
+      }
+    );
+  }
 
-    
+  function onSubmitLogIn(values: z.infer<typeof SignupFormSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+
+    console.log(values);
+    client.post(
+      "login",
+      {
+        email: values.email,
+        password: values.password
+      }
+    ).then(function(res) {
+      console.log(res);
+    });
   }
 
 
@@ -49,22 +98,53 @@ export default function Auth() {
               <CardHeader>
                 <CardTitle>Login</CardTitle>
                 <CardDescription>
+                  {/* eslint-disable-next-line react/no-unescaped-entities */}
                   Login to your account here. Click the login button when you're done.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
-                <div className="space-y-1">
-                  <Label htmlFor="name">Email</Label>
-                  <Input id="name" defaultValue="" placeholder="Type email here" />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="username">Password</Label>
-                  <Input id="username" placeholder="Type password here" />
-                </div>
+                <Form {...signUpForm}>
+                  <form onSubmit={signUpForm.handleSubmit(onSubmitLogIn)} className="space-y-8">
+                    <FormField
+                      control={loginForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <>
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormMessage />
+                            <FormControl>
+                              <Input placeholder="" {...field} />
+                            </FormControl>
+                          </FormItem>
+                        </>
+                      )}
+                    />
+                    <FormField
+                      control={loginForm.control}
+                      name="password"
+                      render={({ field }) => (
+                        <>
+                          <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormMessage />
+                            <FormControl>
+                              <Input type="password" placeholder="" {...field} />
+                            </FormControl>
+                          </FormItem>
+                        </>
+                      )}
+                    />
+
+                    <Button type="submit">
+                      <>
+                        Login
+                      </>
+                    </Button>
+
+                  </form>
+                </Form>
               </CardContent>
-              <CardFooter>
-                <Button>Login</Button>
-              </CardFooter>
             </Card>
           </TabsContent>
           <TabsContent value="Sign-Up">
@@ -76,10 +156,10 @@ export default function Auth() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmitSignUp)} className="space-y-8">
+                <Form {...signUpForm}>
+                  <form onSubmit={signUpForm.handleSubmit(onSubmitSignUp)} className="space-y-8">
                     <FormField
-                      control={form.control}
+                      control={signUpForm.control}
                       name="username"
                       render={({ field }) => (
                         <>
@@ -97,7 +177,7 @@ export default function Auth() {
                         </>
                       )}
                     />
-                    <FormField control={form.control} name="email" render={({ field }) => (
+                    <FormField control={signUpForm.control} name="email" render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
@@ -106,7 +186,7 @@ export default function Auth() {
                       </FormItem>
                     )} />
                     <FormField
-                      control={form.control}
+                      control={signUpForm.control}
                       name="password"
                       render={({ field }) => (
                         <FormItem>
@@ -118,7 +198,11 @@ export default function Auth() {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">
+                      <>
+                        Sign Up
+                      </>
+                    </Button>
                   </form>
                 </Form>
               </CardContent>
