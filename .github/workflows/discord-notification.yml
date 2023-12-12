@@ -1,9 +1,9 @@
-name: Discord Notification on Commit
+name: Discord Notification on Pull Request
 
 on:
-  push:
-    branches:
-      - main  # Replace 'main' with the name of your base branch
+  pull_request:
+    types:
+      - opened  # You can specify other relevant events as needed
 
 jobs:
   notify:
@@ -12,42 +12,47 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          submodules: recursive
-          ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: false
-          fetch-depth: 0
-          node-version: 16  # Set the Node.js version here
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16  # Set the Node.js version here
+          node-version: 16  # Set the Node.js version here to Node.js 16
 
       - name: Install dependencies
         run: npm install discord.js
 
-      - name: Send Discord Notification on Commit
+      - name: Send Discord Notification on Pull Request
         run: |
-          node - <<EOF
-            const { WebhookClient, MessageEmbed } = require('discord.js');
+          const { WebhookClient, MessageEmbed } = require('discord.js');
 
-            const webhook = new WebhookClient({
-              url: process.env.DISCORD_WEBHOOK_URL,
-            });
+          const webhook = new WebhookClient({
+            url: process.env.DISCORD_WEBHOOK_URL,
+          });
 
-            const commit = process.env.GITHUB_SHA.substring(0, 7);
-            const repoName = process.env.GITHUB_REPOSITORY;
-            const branchName = process.env.GITHUB_REF.replace('refs/heads/', '');
+          const mention = process.env.DISCORD_MENTION || '';
+          const pr = process.env.GITHUB_EVENT_PATH;
 
-            const embed = new MessageEmbed()
-              .setColor('#0099ff')
-              .setTitle('New Commit')
-              .setDescription(`A new commit has been made to the branch ${branchName} in ${repoName}.`)
-              .addField('Commit', commit, true)
-              .setTimestamp();
+          try {
+            const prData = require(pr);
 
-            webhook.send({ embeds: [embed] });
-          EOF
+            if (prData && prData.pull_request && prData.pull_request.user && prData.pull_request.user.login) {
+              const embed = new MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle('New Pull Request Created')
+                .setDescription(`A new pull request has been created by ${prData.pull_request.user.login}`)
+                .addField('Title', prData.pull_request.title, true)
+                .addField('Repository', prData.repository.full_name, true)
+                .addField('Branch', prData.pull_request.head.ref, true)
+                .addField('Reviewers', mention, true)
+                .setTimestamp();
+
+              webhook.send({ embeds: [embed] });
+            } else {
+              console.error('Error: Missing or invalid data in prData');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
