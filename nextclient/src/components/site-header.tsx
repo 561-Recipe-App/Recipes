@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-
 import { siteConfig } from "@/config/site";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
@@ -8,27 +7,48 @@ import { MainNav } from "@/components/main-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.withCredentials = true;
 
 const client = axios.create({
-  baseURL: "http://127.0.0.1:8000"
+  baseURL: "http://localhost:8000"
 });
 
 export function SiteHeader() {
   const [currentUser, setCurrentUser] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    client.get("/api/user", { withCredentials: true })
+    const csrfToken = Cookies.get("csrftoken");
+    client.get("/api/user", {
+      withCredentials: true,
+      headers: {
+        "X-CSRFToken": csrfToken
+      }
+    })
       .then(function(res) {
         console.log(res);
         setCurrentUser(true);
       })
       .catch(function(error) {
         setCurrentUser(false);
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
+
+  async function handleSignOut() {
+    client.post(
+      "/api/logout",
+      { withCredentials: true }
+    ).then(function(res) {
+      setCurrentUser(false);
+    });
+  }
 
   return (
     <header className="bg-background sticky top-0 z-40 w-full border-b">
@@ -52,14 +72,14 @@ export function SiteHeader() {
                 <span className="sr-only">GitHub</span>
               </div>
             </Link>
-            {!currentUser ? <Link href="/auth">
+            {loading ? <></> : (!currentUser ? <Link href="/auth">
                 <Button>
                   Login / Sign-Up
                 </Button>
-              </Link>
-              : <Button>
-                Sign Out
-              </Button>
+              </Link> :
+              <Button onClick={handleSignOut}>
+                Sign out
+              </Button>)
             }
           </nav>
         </div>

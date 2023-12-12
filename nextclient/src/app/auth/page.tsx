@@ -60,14 +60,15 @@ export default function Auth() {
         email: values.email,
         username: values.username,
         password: values.password
-      }
+      },
+      { withCredentials: true }
     ).then(function(res) {
         console.log(res);
       }
     );
   }
 
-  function onSubmitLogIn(values: z.infer<typeof SignupFormSchema>) {
+  function onSubmitLogIn(values: z.infer<typeof LoginFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
@@ -77,7 +78,8 @@ export default function Auth() {
       {
         email: values.email,
         password: values.password
-      }
+      },
+      { withCredentials: true }
     ).then(function(res) {
       console.log(res);
     });
@@ -104,7 +106,7 @@ export default function Auth() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <Form {...signUpForm}>
-                  <form onSubmit={signUpForm.handleSubmit(onSubmitLogIn)} className="space-y-8">
+                  <form onSubmit={loginForm.handleSubmit(onSubmitLogIn)} className="space-y-8">
                     <FormField
                       control={loginForm.control}
                       name="email"

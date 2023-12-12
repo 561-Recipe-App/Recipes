@@ -49,5 +49,8 @@ class UserView(APIView):
 
     ##
     def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response({'user': serializer.data}, status=status.HTTP_200_OK)
+        if request.user.is_authenticated:
+            serializer = UserSerializer(request.user)
+            return Response({'user': serializer.data}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)

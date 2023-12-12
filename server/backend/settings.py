@@ -23,6 +23,24 @@ SECRET_KEY = 'django-insecure-)5po$e54k@-d+8m3+3mw&-syr6s77=!vnjz3(sdsmpwrnkm=9f
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+ALLOWED_HOSTS = ["*"]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://0.0.0.0:3000',
+]
+
+CORS_ALLOW_HEADERS = [
+    "Cookies",
+    "Content-Type",
+    "X-CSRFToken",
+    "Access-Control-Allow-Origin",
+]
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -32,10 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
 ]
-
-ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -49,16 +64,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'user_api.apps.UserApiConfig',
-]
-
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000"
-]
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8000',
-    'http://localhost:3000',
 ]
 
 AUTH_USER_MODEL = 'user_api.AppUser'
